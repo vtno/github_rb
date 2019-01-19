@@ -18,6 +18,18 @@ module GithubRb
     end
     map %w(--version -v) => :version
 
+    desc 'fetch_user USERNAME', 'Get user detail'
+    method_option :help, aliases: '-h', type: :boolean,
+                         desc: 'Display usage information'
+    def fetch_user(username)
+      if options[:help]
+        invoke :help, ['fetch_user']
+      else
+        require_relative 'commands/fetch_user'
+        GithubRb::Commands::FetchUser.new(username, options).execute
+      end
+    end
+
     desc 'config GITHUB_API_KEY', 'Add GitHub api key to the configuration'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'

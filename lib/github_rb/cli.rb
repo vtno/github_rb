@@ -17,5 +17,17 @@ module GithubRb
       puts "v#{GithubRb::VERSION}"
     end
     map %w(--version -v) => :version
+
+    desc 'config GITHUB_API_KEY', 'Add GitHub api key to the configuration'
+    method_option :help, aliases: '-h', type: :boolean,
+                         desc: 'Display usage information'
+    def config(github_api_key)
+      if options[:help]
+        invoke :help, ['config']
+      else
+        require_relative 'commands/config'
+        GithubRb::Commands::Config.new(github_api_key, options).execute
+      end
+    end
   end
 end
